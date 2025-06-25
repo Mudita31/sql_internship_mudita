@@ -1,6 +1,7 @@
 # 📚 Library Management Database (SQL Server)
 
-This project demonstrates the design and implementation of a relational database schema for managing a small-scale library system. It includes key entities such as books, authors, members, and borrow records, with structured relationships and best practices like schema separation, audit trails, and referential integrity.
+This project demonstrates the design and implementation of a relational database schema for managing a small-scale library system.
+It includes key entities such as books, authors, members, and borrow records, with structured relationships and best practices like schema separation, audit trails, and referential integrity.
 
 ---
 
@@ -36,22 +37,33 @@ This project demonstrates the design and implementation of a relational database
 3. Run the `Create_Tables.sql` script to:
    - Create all four main tables inside the `library_schema`
    - Add necessary constraints and audit columns
+4. Run the `Insert_Data.sql` script to:
+   - Insert seed data for Authors, Books, Members, and Borrow records
+5. Run the `Library_Operations.sql` script to:
+   - Practice and demonstrate basic SQL operations like `UPDATE`, `DELETE`, and `SELECT` with `WHERE`
 
 ---
 
-## 📦 Future Improvements
+## ⚙️ Sample Queries (`Library_Operations.sql`)
 
-- Add **triggers** to automatically update the `updated_at` column on row changes
-- Create **stored procedures** or **views** for common reporting queries
-- Add a `Genres` table for book categorization
-- Implement `ON DELETE CASCADE` or `SET NULL` logic where appropriate
+```sql
+-- Update a return date
+UPDATE library_schema.Borrow
+SET return_date = '2024-06-26'
+WHERE borrow_id = 1;
 
----
+-- Delete a borrow record
+DELETE FROM library_schema.Borrow
+WHERE borrow_id = 3;
 
-## 💡 Use Case
+-- View all currently borrowed books (not yet returned)
+SELECT * FROM library_schema.Borrow
+WHERE return_date IS NULL;
 
-This schema is suitable for:
-- Academic projects
-- Entry-level DBMS training
-- Small-scale library applications
-- Backend prototypes for library or inventory systems
+-- List books published after 2000
+SELECT * FROM library_schema.Books
+WHERE publish_date > '2000-01-01';
+
+-- Get members who joined in June 2024
+SELECT * FROM library_schema.Members
+WHERE MONTH(join_date) = 6 AND YEAR(join_date) = 2024;
